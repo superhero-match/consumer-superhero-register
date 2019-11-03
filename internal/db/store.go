@@ -1,6 +1,6 @@
 package db
 
-import "github.com/consumer-superhero-update/internal/db/model"
+import "github.com/consumer-superhero-register/internal/db/model"
 
 // StoreSuperhero saves newly registered Superhero.
 func(db *DB) StoreSuperhero (s model.Superhero) error {
