@@ -114,9 +114,9 @@ func (r *Reader) Read() error {
 			SuperPower:  s.SuperPower,
 			AccountType: s.AccountType,
 			IsDeleted:   s.IsDeleted,
-			DeletedAt:   s.DeletedAt,
+			DeletedAt:   nil,
 			IsBlocked:   s.IsBlocked,
-			BlockedAt:   s.BlockedAt,
+			BlockedAt:   nil,
 			UpdatedAt:   s.UpdatedAt,
 			CreatedAt:   s.CreatedAt,
 		}, )

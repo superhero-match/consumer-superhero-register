@@ -22,9 +22,9 @@ type Superhero struct {
 	SuperPower            string           `json:"superpower"`
 	AccountType           string           `json:"account_type"`
 	IsDeleted             bool             `json:"is_deleted"`
-	DeletedAt             string           `json:"deleted_at"`
+	DeletedAt             *string          `json:"deleted_at"`
 	IsBlocked             bool             `json:"is_blocked"`
-	BlockedAt             string           `json:"blocked_at"`
+	BlockedAt             *string          `json:"blocked_at"`
 	UpdatedAt             string           `json:"updated_at"`
 	CreatedAt             string           `json:"created_at"`
 }
