@@ -9,6 +9,7 @@ type Config struct {
 	ES       *ES
 	Consumer *Consumer
 	DB       *DB
+	Cache    *Cache
 }
 
 // NewConfig returns the configuration.

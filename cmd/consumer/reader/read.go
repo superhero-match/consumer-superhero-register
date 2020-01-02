@@ -8,6 +8,7 @@ import (
 
 	"gopkg.in/olivere/elastic.v7"
 
+	chm "github.com/consumer-superhero-register/internal/cache/model"
 	"github.com/consumer-superhero-register/internal/consumer/model"
 	esm "github.com/consumer-superhero-register/internal/es/model"
 )
@@ -73,6 +74,7 @@ func (r *Reader) Read() error {
 			City:                  s.City,
 			SuperPower:            s.SuperPower,
 			AccountType:           s.AccountType,
+			FirebaseToken:         s.FirebaseToken,
 			IsDeleted:             s.IsDeleted,
 			DeletedAt:             s.DeletedAt,
 			IsBlocked:             s.IsBlocked,
@@ -81,8 +83,6 @@ func (r *Reader) Read() error {
 			CreatedAt:             s.CreatedAt,
 		}, )
 		if err != nil {
-			fmt.Println("DB")
-			fmt.Println(err)
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
 				return err
@@ -121,8 +121,20 @@ func (r *Reader) Read() error {
 			CreatedAt:   s.CreatedAt,
 		}, )
 		if err != nil {
-			fmt.Println("ES")
-			fmt.Println(err)
+			err = r.Consumer.Consumer.Close()
+			if err != nil {
+				return err
+			}
+
+			return err
+		}
+
+		err = r.Cache.SetToken(chm.FirebaseMessagingToken{
+			Token:       s.FirebaseToken,
+			SuperheroID: s.ID,
+			CreatedAt:   s.CreatedAt,
+		})
+		if err != nil {
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
 				return err

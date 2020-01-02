@@ -1,6 +1,7 @@
 package reader
 
 import (
+	"github.com/consumer-superhero-register/internal/cache"
 	"github.com/consumer-superhero-register/internal/config"
 	"github.com/consumer-superhero-register/internal/consumer"
 	"github.com/consumer-superhero-register/internal/db"
@@ -12,6 +13,7 @@ type Reader struct {
 	DB       *db.DB
 	ES       *es.ES
 	Consumer *consumer.Consumer
+	Cache    *cache.Cache
 }
 
 // NewReader configures Reader.
@@ -28,9 +30,15 @@ func NewReader(cfg *config.Config) (r *Reader, err error) {
 
 	c := consumer.NewConsumer(cfg)
 
+	ch, err := cache.NewCache(cfg)
+	if err != nil {
+		return nil, err
+	}
+
 	return &Reader{
 		DB:       dbs,
 		ES:       e,
 		Consumer: c,
+		Cache:    ch,
 	}, nil
 }
