@@ -24,6 +24,7 @@ func(db *DB) StoreSuperhero (s model.Superhero) error {
 		s.City,
 		s.SuperPower,
 		s.AccountType,
+		s.FirebaseToken,
 		s.IsDeleted,
 		s.DeletedAt,
 		s.IsBlocked,
