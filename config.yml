@@ -1,5 +1,5 @@
 es:
-  host: '192.168.178.17'
+  host: 'localhost'
   port: '9200'
   cluster: 'superheromatch'
   index: 'superhero'
@@ -12,12 +12,12 @@ db:
   name: 'municipality'
 
 consumer:
-  brokers: ['192.168.178.17:9092']
+  brokers: ['localhost:9092']
   topic: 'store.municipality.superhero'
   group_id: 'consumer-register-group'
 
 cache:
-  address: '192.168.178.17'
+  address: 'localhost'
   port: ':6379'
   password: 'Awesome85**'
   db: 0
