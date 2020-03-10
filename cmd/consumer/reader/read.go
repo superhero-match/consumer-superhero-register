@@ -17,13 +17,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	dbm "github.com/consumer-superhero-register/internal/db/model"
+	dbm "github.com/superhero-match/consumer-superhero-register/internal/db/model"
 
 	"gopkg.in/olivere/elastic.v7"
 
-	chm "github.com/consumer-superhero-register/internal/cache/model"
-	"github.com/consumer-superhero-register/internal/consumer/model"
-	esm "github.com/consumer-superhero-register/internal/es/model"
+	chm "github.com/superhero-match/consumer-superhero-register/internal/cache/model"
+	"github.com/superhero-match/consumer-superhero-register/internal/consumer/model"
+	esm "github.com/superhero-match/consumer-superhero-register/internal/es/model"
 )
 
 // Read consumes the Kafka topic and stores the newly registered superhero to DB and Elasticsearch.

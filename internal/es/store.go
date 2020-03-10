@@ -17,7 +17,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/consumer-superhero-register/internal/es/model"
+	"github.com/superhero-match/consumer-superhero-register/internal/es/model"
 )
 
 // StoreSuperhero saves newly registered superhero in Elasticsearch.

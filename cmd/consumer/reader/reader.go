@@ -14,11 +14,11 @@
 package reader
 
 import (
-	"github.com/consumer-superhero-register/internal/cache"
-	"github.com/consumer-superhero-register/internal/config"
-	"github.com/consumer-superhero-register/internal/consumer"
-	"github.com/consumer-superhero-register/internal/db"
-	"github.com/consumer-superhero-register/internal/es"
+	"github.com/superhero-match/consumer-superhero-register/internal/cache"
+	"github.com/superhero-match/consumer-superhero-register/internal/config"
+	"github.com/superhero-match/consumer-superhero-register/internal/consumer"
+	"github.com/superhero-match/consumer-superhero-register/internal/db"
+	"github.com/superhero-match/consumer-superhero-register/internal/es"
 )
 
 // Reader holds all the data relevant.

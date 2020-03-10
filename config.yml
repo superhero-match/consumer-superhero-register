@@ -14,7 +14,6 @@ db:
 consumer:
   brokers: ['localhost:9092']
   topic: 'store.municipality.superhero'
-  group_id: 'consumer-register-group'
 
 cache:
   address: 'localhost'
