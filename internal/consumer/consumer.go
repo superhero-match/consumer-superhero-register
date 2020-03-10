@@ -14,7 +14,7 @@
 package consumer
 
 import (
-	"github.com/consumer-superhero-register/internal/config"
+	"github.com/superhero-match/consumer-superhero-register/internal/config"
 	"time"
 
 	"github.com/segmentio/kafka-go"
