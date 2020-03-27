@@ -19,7 +19,7 @@ import (
 	"fmt"
 	dbm "github.com/superhero-match/consumer-superhero-register/internal/db/model"
 
-	"gopkg.in/olivere/elastic.v7"
+	"github.com/olivere/elastic/v7"
 
 	chm "github.com/superhero-match/consumer-superhero-register/internal/cache/model"
 	"github.com/superhero-match/consumer-superhero-register/internal/consumer/model"
@@ -96,6 +96,8 @@ func (r *Reader) Read() error {
 			CreatedAt:             s.CreatedAt,
 		}, )
 		if err != nil {
+			fmt.Println("r.DB.StoreSuperhero")
+			fmt.Println(err)
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
 				return err
@@ -134,6 +136,8 @@ func (r *Reader) Read() error {
 			CreatedAt:   s.CreatedAt,
 		}, )
 		if err != nil {
+			fmt.Println("r.ES.StoreSuperhero")
+			fmt.Println(err)
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
 				return err
@@ -148,6 +152,8 @@ func (r *Reader) Read() error {
 			CreatedAt:   s.CreatedAt,
 		})
 		if err != nil {
+			fmt.Println("r.Cache.SetToken")
+			fmt.Println(err)
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
 				return err
@@ -158,6 +164,8 @@ func (r *Reader) Read() error {
 
 		err = r.Consumer.Consumer.CommitMessages(ctx, m)
 		if err != nil {
+			fmt.Println("r.Consumer.Consumer.CommitMessages")
+			fmt.Println(err)
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
 				return err

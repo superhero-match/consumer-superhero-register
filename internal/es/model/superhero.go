@@ -13,7 +13,7 @@
 */
 package model
 
-import "gopkg.in/olivere/elastic.v7"
+import "github.com/olivere/elastic/v7"
 
 type Superhero struct {
 	ID                    string           `json:"superhero_id"`
