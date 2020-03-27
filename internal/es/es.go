@@ -15,8 +15,8 @@ package es
 
 import (
 	"fmt"
+	elastic "github.com/olivere/elastic/v7"
 	"github.com/superhero-match/consumer-superhero-register/internal/config"
-	elastic "gopkg.in/olivere/elastic.v7"
 )
 
 // ES holds all the Elasticsearch client relevant data.
