@@ -18,8 +18,10 @@ import (
 	"encoding/json"
 	"fmt"
 	dbm "github.com/superhero-match/consumer-superhero-register/internal/db/model"
+	"time"
 
 	"github.com/olivere/elastic/v7"
+	"go.uber.org/zap"
 
 	chm "github.com/superhero-match/consumer-superhero-register/internal/cache/model"
 	"github.com/superhero-match/consumer-superhero-register/internal/consumer/model"
@@ -31,12 +33,24 @@ func (r *Reader) Read() error {
 	ctx := context.Background()
 
 	for {
-		fmt.Print("before FetchMessage")
+		fmt.Println("before FetchMessage")
 		m, err := r.Consumer.Consumer.FetchMessage(ctx)
-		fmt.Print("after FetchMessage")
+		fmt.Println("after FetchMessage")
 		if err != nil {
+			r.Logger.Error(
+				"failed to fetch message",
+				zap.String("err", err.Error()),
+				zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+			)
+
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
+				r.Logger.Error(
+					"failed to close consumer",
+					zap.String("err", err.Error()),
+					zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+				)
+
 				return err
 			}
 
@@ -54,17 +68,24 @@ func (r *Reader) Read() error {
 
 		var s model.Superhero
 		if err := json.Unmarshal(m.Value, &s); err != nil {
-			_ = r.Consumer.Consumer.Close()
+			r.Logger.Error(
+				"failed to unmarshal JSON to superhero model",
+				zap.String("err", err.Error()),
+				zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+			)
+			
+			err = r.Consumer.Consumer.Close()
 			if err != nil {
-				fmt.Println("Unmarshal")
-				fmt.Println(err)
-				err = r.Consumer.Consumer.Close()
-				if err != nil {
-					return err
-				}
+				r.Logger.Error(
+					"failed to close consumer",
+					zap.String("err", err.Error()),
+					zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+				)
 
 				return err
 			}
+
+			return err
 		}
 
 		err = r.DB.StoreSuperhero(dbm.Superhero{
@@ -96,10 +117,20 @@ func (r *Reader) Read() error {
 			CreatedAt:             s.CreatedAt,
 		}, )
 		if err != nil {
-			fmt.Println("r.DB.StoreSuperhero")
-			fmt.Println(err)
+			r.Logger.Error(
+				"failed to store superhero in database",
+				zap.String("err", err.Error()),
+				zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+			)
+
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
+				r.Logger.Error(
+					"failed to close consumer",
+					zap.String("err", err.Error()),
+					zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+				)
+
 				return err
 			}
 
@@ -136,10 +167,20 @@ func (r *Reader) Read() error {
 			CreatedAt:   s.CreatedAt,
 		}, )
 		if err != nil {
-			fmt.Println("r.ES.StoreSuperhero")
-			fmt.Println(err)
+			r.Logger.Error(
+				"failed to store superhero in Elasticsearch",
+				zap.String("err", err.Error()),
+				zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+			)
+
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
+				r.Logger.Error(
+					"failed to close consumer",
+					zap.String("err", err.Error()),
+					zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+				)
+
 				return err
 			}
 
@@ -152,10 +193,20 @@ func (r *Reader) Read() error {
 			CreatedAt:   s.CreatedAt,
 		})
 		if err != nil {
-			fmt.Println("r.Cache.SetToken")
-			fmt.Println(err)
+			r.Logger.Error(
+				"failed to store Firebase messaging token in cache",
+				zap.String("err", err.Error()),
+				zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+			)
+
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
+				r.Logger.Error(
+					"failed to close consumer",
+					zap.String("err", err.Error()),
+					zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+				)
+
 				return err
 			}
 
@@ -164,10 +215,20 @@ func (r *Reader) Read() error {
 
 		err = r.Consumer.Consumer.CommitMessages(ctx, m)
 		if err != nil {
-			fmt.Println("r.Consumer.Consumer.CommitMessages")
-			fmt.Println(err)
+			r.Logger.Error(
+				"failed to commit message",
+				zap.String("err", err.Error()),
+				zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+			)
+
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
+				r.Logger.Error(
+					"failed to close consumer",
+					zap.String("err", err.Error()),
+					zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+				)
+
 				return err
 			}
 

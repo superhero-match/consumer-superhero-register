@@ -1,13 +1,5 @@
 prepare:
-	go get -u github.com/golang/dep/cmd/dep
-	go get -u github.com/gin-gonic/gin
-	go get -u golang.org/x/sys/unix
-	go get -u github.com/jinzhu/configor
-	go get -u github.com/go-sql-driver/mysql
-	go get -u go.uber.org/zap
-	go get -u gopkg.in/olivere/elastic.v7
-	go get -u github.com/segmentio/kafka-go
-	go get -u golang.org/x/net/context
+	go mod download
 
 run:
 	go build -o bin/main cmd/consumer/main.go
@@ -17,22 +9,16 @@ build:
 	CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags '-extldflags "-static"' -o bin/main cmd/consumer/main.go
 	chmod +x bin/main
 
-init:
-	dep init
-
-deps:
-	dep ensure -v
-
 dkb:
-	docker build -t consumer .
+	docker build -t consumer-superhero-register .
 
 dkr:
-	docker run consumer
+	docker run consumer-superhero-register
 
 launch: dkb dkr
 
 cr-log:
-	docker logs consumer -f
+	docker logs consumer-superhero-register -f
 
 db-log:
 	docker logs db -f
@@ -49,7 +35,7 @@ rmi:
 clear: rmc rmi
 
 cr-ssh:
-	docker exec -it consumer /bin/bash
+	docker exec -it consumer-superhero-register /bin/bash
 
 db-ssh:
 	docker exec -it db /bin/bash
