@@ -13,7 +13,7 @@ dkb:
 	docker build -t consumer-superhero-register .
 
 dkr:
-	docker run consumer-superhero-register
+	docker run -p "8080:8080" consumer-superhero-register
 
 launch: dkb dkr
 

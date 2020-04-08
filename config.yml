@@ -5,10 +5,10 @@ es:
   index: 'superhero'
 
 db:
-  host: 'localhost'
+  host: '192.168.0.101'
   port: 3306
-  user: 'root'
-  password: 'Kolian18**'
+  user: 'dev'
+  password: 'password'
   name: 'municipality'
 
 consumer:
@@ -25,3 +25,9 @@ cache:
   minimum_idle_connections: 10
   maximum_retries: 1
   token_key_format: 'token.%s'
+
+health:
+  address: '192.168.0.101'
+  port: ':8080'
+  shutdown_endpoint: '/api/v1/consumer_superhero_register_health/shutdown'
+  content_type: 'application/json'

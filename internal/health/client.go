@@ -11,33 +11,23 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-package main
+package health
 
 import (
-	"github.com/superhero-match/consumer-superhero-register/cmd/consumer/reader"
+	"fmt"
 	"github.com/superhero-match/consumer-superhero-register/internal/config"
-	"github.com/superhero-match/consumer-superhero-register/internal/health"
 )
 
-func main() {
-	cfg, err := config.NewConfig()
-	if err != nil {
-		panic(err)
-	}
+// Client holds health client related data.
+type Client struct {
+	HealthServerURL string
+	ContentType     string
+}
 
-	client := health.NewClient(cfg)
-
-	r, err := reader.NewReader(cfg)
-	if err != nil {
-		_ = client.ShutdownHealthServer()
-
-		panic(err)
-	}
-
-	err = r.Read()
-	if err != nil {
-		_ = client.ShutdownHealthServer()
-
-		panic(err)
+// NewClient return new health client.
+func NewClient(cfg *config.Config) *Client {
+	return &Client{
+		HealthServerURL: fmt.Sprintf("http://%s%s%s", cfg.Health.Address, cfg.Health.Port, cfg.Health.ShutdownEndpoint),
+		ContentType:     cfg.Health.ContentType,
 	}
 }

@@ -11,33 +11,30 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-package main
+package controller
 
 import (
-	"github.com/superhero-match/consumer-superhero-register/cmd/consumer/reader"
-	"github.com/superhero-match/consumer-superhero-register/internal/config"
-	"github.com/superhero-match/consumer-superhero-register/internal/health"
+	"github.com/gin-gonic/gin"
 )
 
-func main() {
-	cfg, err := config.NewConfig()
-	if err != nil {
-		panic(err)
-	}
+// Controller holds the Controller data.
+type Controller struct {
+}
 
-	client := health.NewClient(cfg)
+// NewController returns new controller.
+func NewController() (*Controller, error) {
+	return &Controller{}, nil
+}
 
-	r, err := reader.NewReader(cfg)
-	if err != nil {
-		_ = client.ShutdownHealthServer()
+// RegisterRoutes registers all the superhero_suggestions API routes.
+func (ctl *Controller) RegisterRoutes() *gin.Engine {
+	router := gin.Default()
 
-		panic(err)
-	}
+	sr := router.Group("/api/v1/consumer_superhero_register_health")
 
-	err = r.Read()
-	if err != nil {
-		_ = client.ShutdownHealthServer()
+	// Routes.
+	sr.POST("/health", ctl.Health)
+	sr.POST("/shutdown", ctl.Shutdown)
 
-		panic(err)
-	}
+	return router
 }

@@ -11,33 +11,17 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-package main
+package controller
 
 import (
-	"github.com/superhero-match/consumer-superhero-register/cmd/consumer/reader"
-	"github.com/superhero-match/consumer-superhero-register/internal/config"
-	"github.com/superhero-match/consumer-superhero-register/internal/health"
+	"github.com/gin-gonic/gin"
+	"net/http"
+	"os"
 )
 
-func main() {
-	cfg, err := config.NewConfig()
-	if err != nil {
-		panic(err)
-	}
-
-	client := health.NewClient(cfg)
-
-	r, err := reader.NewReader(cfg)
-	if err != nil {
-		_ = client.ShutdownHealthServer()
-
-		panic(err)
-	}
-
-	err = r.Read()
-	if err != nil {
-		_ = client.ShutdownHealthServer()
-
-		panic(err)
-	}
+// Shutdown is called and panics when consumer panics so that Health controller would not be responding and
+// loadbalancer would mark consumer un-healthy and spin-up a new instance of consumer.
+func (ctl *Controller) Shutdown(c *gin.Context) {
+	c.Status(http.StatusOK)
+	os.Exit(2)
 }
