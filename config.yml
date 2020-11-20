@@ -1,23 +1,23 @@
 es:
-  host: '192.168.0.105'
+  host: '192.168.0.64'
   port: '9200'
   cluster: 'superheromatch'
   index: 'superhero'
 
 db:
-  host: '192.168.0.101'
+  host: '192.168.0.64'
   port: 3306
   user: 'dev'
-  password: 'password'
+  password: 'Awesome85**'
   name: 'municipality'
 
 consumer:
-  brokers: ['192.168.0.105:9092']
+  brokers: ['192.168.0.64:9092']
   topic: 'store.municipality.superhero'
-  group_id: 'consumer-register-group'
+  group_id: 'consumer.register.group'
 
 cache:
-  address: '192.168.0.105'
+  address: '192.168.0.64'
   port: ':6379'
   password: 'Awesome85**'
   db: 0
