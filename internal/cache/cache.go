@@ -18,17 +18,22 @@ import (
 
 	"github.com/go-redis/redis"
 
+	"github.com/superhero-match/consumer-superhero-register/internal/cache/model"
 	"github.com/superhero-match/consumer-superhero-register/internal/config"
 )
 
-// Cache is the Redis client.
-type Cache struct {
-	Redis          *redis.Client
-	TokenKeyFormat string
+// Cache interface defines cache methods.
+type Cache interface {
+	SetToken(key string, token model.FirebaseMessagingToken) error
+}
+
+// cache is the Redis client.
+type cache struct {
+	Redis *redis.Client
 }
 
 // NewCache creates a client connection to Redis.
-func NewCache(cfg *config.Config) (cache *Cache, err error) {
+func NewCache(cfg *config.Config) (c Cache, err error) {
 	client := redis.NewClient(&redis.Options{
 		Addr:         fmt.Sprintf("%s%s", cfg.Cache.Address, cfg.Cache.Port),
 		Password:     cfg.Cache.Password,
@@ -43,8 +48,7 @@ func NewCache(cfg *config.Config) (cache *Cache, err error) {
 		return nil, err
 	}
 
-	return &Cache{
-		Redis:          client,
-		TokenKeyFormat: cfg.Cache.TokenKeyFormat,
+	return &cache{
+		Redis: client,
 	}, nil
 }
