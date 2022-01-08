@@ -18,7 +18,7 @@ import (
 )
 
 // StoreSuperhero saves newly registered Superhero.
-func(db *DB) StoreSuperhero (s model.Superhero) error {
+func (db *db) StoreSuperhero(s model.Superhero) error {
 	_, err := db.stmtInsertNewSuperhero.Exec(
 		s.ID,
 		s.Email,
