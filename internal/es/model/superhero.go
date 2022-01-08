@@ -13,7 +13,9 @@
 */
 package model
 
-import "github.com/olivere/elastic/v7"
+import (
+	elastic "github.com/olivere/elastic/v7"
+)
 
 type Superhero struct {
 	ID                    string           `json:"superhero_id"`

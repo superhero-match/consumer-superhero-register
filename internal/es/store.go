@@ -21,7 +21,7 @@ import (
 )
 
 // StoreSuperhero saves newly registered superhero in Elasticsearch.
-func(es *ES) StoreSuperhero(s *model.Superhero) error {
+func (es *es) StoreSuperhero(s *model.Superhero) error {
 	resp, err := es.Client.Index().
 		Index(es.Index).
 		BodyJson(s).
